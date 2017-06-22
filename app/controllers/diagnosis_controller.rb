@@ -3,9 +3,15 @@
 class DiagnosisController < ApplicationController
   layout 'with_visit_subnavbar'
 
-  def index
+  def new
     @visit = Visit.of_advisor(current_user).includes(:company).find params[:visit_id]
   end
+
+  def create; end
+
+  def show; end
+
+  def index; end
 
   def question
     @visit = Visit.of_advisor(current_user).includes(:visitee, :company).find params[:visit_id]
