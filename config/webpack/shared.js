@@ -17,10 +17,11 @@ const packPaths = sync(join(entryPath, extensionGlob))
 
 const acceptedEntryPointArray = [
   'common/babel-polyfill',
-  'companies/companySearchApp',
-  'step-1/step1App',
-  'step-2/step2App',
-  'step-3/step3App'
+  'diagnoses/mainApp',
+  // 'companies/companySearchApp',
+  // 'step-1/step1App',
+  // 'step-2/step2App',
+  // 'step-3/step3App'
 ]
 
 module.exports = {

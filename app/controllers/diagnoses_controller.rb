@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
 class DiagnosesController < ApplicationController
+
+  def app;
+  end
+
   def index
     @diagnoses = UseCases::GetDiagnoses.for_user(current_user)
   end
 
-  def step1; end
+  def step1;
+  end
 
   def step2
     @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
