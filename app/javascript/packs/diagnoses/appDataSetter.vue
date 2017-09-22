@@ -3,15 +3,15 @@
 </template>
 
 <script>
-  export default {
-    name: 'app-data-setter',
-    props: [
-      'path'
-    ],
-    created: function () {
-      this.$router.push({path: this.path})
-    }
+export default {
+  name: 'app-data-setter',
+  props: [
+    'path'
+  ],
+  created: function () {
+    this.$router.push({path: this.path})
   }
+}
 </script>
 
 <style lang="sass">

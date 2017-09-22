@@ -59,7 +59,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :diagnoses, only: %i[show create update] do
+    resources :diagnoses, only: %i[index show create update] do
       resources :diagnosed_needs, only: %i[index] do
         post :bulk, on: :collection
       end

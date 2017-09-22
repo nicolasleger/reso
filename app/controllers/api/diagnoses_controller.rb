@@ -2,6 +2,10 @@
 
 module Api
   class DiagnosesController < ApplicationController
+    def index
+      @diagnoses = UseCases::GetDiagnoses.for_user(current_user)
+    end
+
     def show
       @diagnosis = Diagnosis.find params[:id]
       check_current_user_access_to(@diagnosis)

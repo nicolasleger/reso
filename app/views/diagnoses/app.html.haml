@@ -1,10 +1,7 @@
-- meta title: 'APP'
 
 #diagnoses-app
-  = 'path'
-  = params[:path]
-
   %app-data-setter{ 'path' => params[:path] }
+
   %router-view
 
 = javascript_pack_tag 'diagnoses/mainApp'

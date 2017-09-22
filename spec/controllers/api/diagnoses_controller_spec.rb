@@ -9,6 +9,14 @@ RSpec.describe Api::DiagnosesController, type: :controller do
   let(:diagnosis) { create :diagnosis, content: content, visit: visit }
   let(:visit) { create :visit, advisor: current_user }
 
+  describe 'GET #index' do
+    it('returns http success') do
+      get :index, format: :json
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe 'GET #show' do
     it('returns http success') do
       get :show, format: :json, params: { id: diagnosis.id }
