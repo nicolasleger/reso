@@ -5,48 +5,48 @@ class DiagnosesController < ApplicationController
   def app;
   end
 
-  def index
-    @diagnoses = UseCases::GetDiagnoses.for_user(current_user)
-  end
-
-  def step1;
-  end
-
-  def step2
-    @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
-    @categories_with_questions = UseCases::GetStep2Data.for_diagnosis @diagnosis
-  end
-
-  def step3
-    @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
-  end
-
-  def step4
-    @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
-    associations = [question: [assistances: [assistances_experts: [expert: :institution]]]]
-    @diagnosed_needs = DiagnosedNeed.of_diagnosis(@diagnosis).joins(associations).includes(associations)
-    @assistances_of_location = Assistance.of_location(@diagnosis.visit.location).of_diagnosis(@diagnosis)
-  end
-
-  def step5
-    associations = [visit: [:visitee, facility: [:company]], diagnosed_needs: [:selected_assistance_experts]]
-    @diagnosis = Diagnosis.includes(associations).find params[:id]
-    check_current_user_access_to(@diagnosis)
-  end
-
-  def notify_experts
-    diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
-    create_selected_ae_and_send_emails(diagnosis, params[:assistances_experts]) if params[:assistances_experts].present?
-    diagnosis.update step: Diagnosis::LAST_STEP
-    redirect_to step_5_diagnosis_path(diagnosis), notice: I18n.t('diagnoses.step5.notifications_sent')
-  end
-
-  def destroy
-    diagnosis = Diagnosis.find params[:id]
-    check_current_user_access_to(diagnosis)
-    diagnosis.destroy
-    redirect_to diagnoses_path
-  end
+  # def index
+  #   @diagnoses = UseCases::GetDiagnoses.for_user(current_user)
+  # end
+  #
+  # def step1;
+  # end
+  #
+  # def step2
+  #   @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
+  #   @categories_with_questions = UseCases::GetStep2Data.for_diagnosis @diagnosis
+  # end
+  #
+  # def step3
+  #   @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
+  # end
+  #
+  # def step4
+  #   @diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
+  #   associations = [question: [assistances: [assistances_experts: [expert: :institution]]]]
+  #   @diagnosed_needs = DiagnosedNeed.of_diagnosis(@diagnosis).joins(associations).includes(associations)
+  #   @assistances_of_location = Assistance.of_location(@diagnosis.visit.location).of_diagnosis(@diagnosis)
+  # end
+  #
+  # def step5
+  #   associations = [visit: [:visitee, facility: [:company]], diagnosed_needs: [:selected_assistance_experts]]
+  #   @diagnosis = Diagnosis.includes(associations).find params[:id]
+  #   check_current_user_access_to(@diagnosis)
+  # end
+  #
+  # def notify_experts
+  #   diagnosis = fetch_and_check_diagnosis_by_id(params[:id])
+  #   create_selected_ae_and_send_emails(diagnosis, params[:assistances_experts]) if params[:assistances_experts].present?
+  #   diagnosis.update step: Diagnosis::LAST_STEP
+  #   redirect_to step_5_diagnosis_path(diagnosis), notice: I18n.t('diagnoses.step5.notifications_sent')
+  # end
+  #
+  # def destroy
+  #   diagnosis = Diagnosis.find params[:id]
+  #   check_current_user_access_to(diagnosis)
+  #   diagnosis.destroy
+  #   redirect_to diagnoses_path
+  # end
 
   private
 

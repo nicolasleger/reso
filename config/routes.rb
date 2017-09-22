@@ -18,20 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
-
   get 'diagnoses' => 'diagnoses#app'
   get 'diagnoses/*path', to: redirect('diagnoses?path=%{path}')
-  # resources :diagnoses, only: %i[index destroy] do
-  #   get 'step-1' => 'diagnoses#step1', on: :collection
-  #
-  #   member do
-  #     get 'step-2' => 'diagnoses#step2'
-  #     get 'step-3' => 'diagnoses#step3'
-  #     get 'step-4' => 'diagnoses#step4'
-  #     get 'step-5' => 'diagnoses#step5'
-  #     post :notify_experts
-  #   end
-  # end
 
   resources :companies, only: %i[show], param: :siret do
     collection do
