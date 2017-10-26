@@ -6,8 +6,10 @@ module Api
       facility = UseCases::SearchFacility.with_siret params[:siret]
       company = UseCases::SearchCompany.with_siret params[:siret]
       render json: { company_name: company.name, facility_location: facility.etablissement.location }
-    rescue ApiEntreprise::ApiEntrepriseError
-      render body: nil, status: :unprocessable_entity
+    rescue ApiEntreprise::Errors::NotFoundError
+      render body: nil
+    rescue ApiEntreprise::Errors::ServerError
+      render json: { error: api_entreprise_error_hash }, status: :service_unavailable
     end
 
     def search_by_siren
@@ -17,8 +19,16 @@ module Api
         facility_location: company.etablissement_siege.location,
         siret: company.etablissement_siege.siret
       }
-    rescue ApiEntreprise::ApiEntrepriseError
-      render body: nil, status: :unprocessable_entity
+    rescue ApiEntreprise::Errors::NotFoundError
+      render body: nil
+    rescue ApiEntreprise::Errors::ServerError
+      render json: { error: api_entreprise_error_hash }, status: :service_unavailable
+    end
+
+    private
+
+    def api_entreprise_error_hash
+      { key: :api_entreprise_fail, message: 'Problem with API Enterprise, please contact tech@apientreprise.fr.' }
     end
   end
 end

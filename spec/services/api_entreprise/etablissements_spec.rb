@@ -40,7 +40,7 @@ RSpec.describe ApiEntreprise::Etablissements do
     end
 
     it 'raises an error' do
-      expect { facility }.to raise_error ApiEntreprise::ApiEntrepriseError
+      expect { facility }.to raise_error ApiEntreprise::Errors::ServerError
     end
   end
 
@@ -57,7 +57,7 @@ RSpec.describe ApiEntreprise::Etablissements do
     end
 
     it 'raises an error' do
-      expect { facility }.to raise_error ApiEntreprise::ApiEntrepriseError
+      expect { facility }.to raise_error ApiEntreprise::Errors::ServerError
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe ApiEntreprise::Etablissements do
     end
 
     it 'raises an error' do
-      expect { facility }.to raise_error ApiEntreprise::ApiEntrepriseError
+      expect { facility }.to raise_error ApiEntreprise::Errors::RequestError
     end
   end
 end

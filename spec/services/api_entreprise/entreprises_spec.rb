@@ -45,7 +45,7 @@ RSpec.describe ApiEntreprise::Entreprises do
     end
 
     it 'raises an error' do
-      expect { company }.to raise_error ApiEntreprise::ApiEntrepriseError
+      expect { company }.to raise_error ApiEntreprise::Errors::ServerError
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe ApiEntreprise::Entreprises do
     end
 
     it 'raises an error' do
-      expect { company }.to raise_error ApiEntreprise::ApiEntrepriseError
+      expect { company }.to raise_error ApiEntreprise::Errors::ServerError
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe ApiEntreprise::Entreprises do
     end
 
     it 'raises an error' do
-      expect { company }.to raise_error ApiEntreprise::ApiEntrepriseError
+      expect { company }.to raise_error ApiEntreprise::Errors::RequestError
     end
   end
 end

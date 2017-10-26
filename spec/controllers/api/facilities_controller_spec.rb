@@ -29,14 +29,29 @@ RSpec.describe Api::FacilitiesController, type: :controller do
 
     context 'when facility is not found' do
       before do
-        allow(UseCases::SearchFacility).to receive(:with_siret).with(siret).and_raise ApiEntreprise::ApiEntrepriseError
+        allow(UseCases::SearchFacility).to receive(:with_siret).with(siret)
+                                                               .and_raise ApiEntreprise::Errors::NotFoundError
 
         post :search_by_siret, params: { siret: siret }, format: :js
       end
 
-      it 'returns http unprocessable entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns empty body' do
+        expect(response).to have_http_status(:success)
         expect(response.body).to be_blank
+      end
+    end
+
+    context 'when API Entreprise server is down' do
+      before do
+        allow(UseCases::SearchFacility).to receive(:with_siret).with(siret)
+                                                               .and_raise ApiEntreprise::Errors::ServerError
+
+        post :search_by_siret, params: { siret: siret }, format: :js
+      end
+
+      it 'returns service unavailable' do
+        expect(response).to have_http_status(:service_unavailable)
+        expect(JSON.parse(response.body)['error']['key']).to eq 'api_entreprise_fail'
       end
     end
   end
@@ -63,14 +78,28 @@ RSpec.describe Api::FacilitiesController, type: :controller do
 
     context 'when company is not found' do
       before do
-        allow(UseCases::SearchCompany).to receive(:with_siren).with(siren).and_raise ApiEntreprise::ApiEntrepriseError
+        allow(UseCases::SearchCompany).to receive(:with_siren).with(siren)
+                                                              .and_raise ApiEntreprise::Errors::NotFoundError
 
         post :search_by_siren, params: { siren: siren }, format: :js
       end
 
-      it 'returns http unprocessable entity' do
-        expect(response).to have_http_status(:unprocessable_entity)
+      it 'returns empty body' do
+        expect(response).to have_http_status(:success)
         expect(response.body).to be_blank
+      end
+    end
+
+    context 'when API Entreprise server is down' do
+      before do
+        allow(UseCases::SearchCompany).to receive(:with_siren).with(siren).and_raise ApiEntreprise::Errors::ServerError
+
+        post :search_by_siren, params: { siren: siren }, format: :js
+      end
+
+      it 'returns service unavailable' do
+        expect(response).to have_http_status(:service_unavailable)
+        expect(JSON.parse(response.body)['error']['key']).to eq 'api_entreprise_fail'
       end
     end
   end
